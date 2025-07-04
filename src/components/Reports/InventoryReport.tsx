@@ -53,7 +53,7 @@ export default function InventoryReport({ inventory, compact = false }: Inventor
     return (
       <div className="space-y-6">
         <div>
-          <h3 className="text-lg font-semibold text-slate-800 mb-4">Inventory Summary</h3>
+          <h3 className="text-lg font-semibold text-slate-200 mb-4">Inventory Summary</h3>
           <div className="grid grid-cols-2 gap-4">
             <div className="bg-slate-50 rounded-lg p-4">
               <div className="flex items-center space-x-2 mb-2">
