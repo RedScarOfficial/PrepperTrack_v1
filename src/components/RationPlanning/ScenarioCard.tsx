@@ -24,10 +24,10 @@ export default function ScenarioCard({
   const isSafe = caloriesPerPerson >= minCalories;
   
   const getScenarioColor = () => {
-    if (scenario.reductionPercentage === 0) return 'border-green-300 bg-green-70';
-    if (scenario.reductionPercentage <= 25) return 'border-yellow-300 bg-yellow-70';
-    if (scenario.reductionPercentage <= 50) return 'border-orange-300 bg-orange-70';
-    return 'border-red-300 bg-red-70';
+    if (scenario.reductionPercentage === 0) return 'border-green-700 bg-green-800';
+    if (scenario.reductionPercentage <= 25) return 'border-yellow-700 bg-yellow-800';
+    if (scenario.reductionPercentage <= 50) return 'border-orange-700 bg-orange-800';
+    return 'border-red-700 bg-red-800';
   };
 
   return (
