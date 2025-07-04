@@ -48,7 +48,7 @@ export default function ScenarioCard({
           {isSafe ? (
             <CheckCircle className="h-5 w-5 text-green-600" />
           ) : (
-            <AlertTriangle className="h-5 w-5 text-red-600" />
+            <AlertTriangle className="h-5 w-5 text-red-400" />
           )}
           {isSelected && <div className="w-3 h-3 bg-green-500 rounded-full"></div>}
         </div>
