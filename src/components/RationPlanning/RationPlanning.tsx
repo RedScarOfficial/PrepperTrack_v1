@@ -48,8 +48,8 @@ export default function RationPlanning() {
 
       {/* Current Scenario Overview  */}
       {selectedScenario && (
-        <div className="bg-white rounded-xl shadow-md p-6 mb-8">
-          <h2 className="text-xl font-semibold text-slate-800 mb-4">Current Scenario: {selectedScenario.name}</h2>
+        <div className="bg-white dark:bg-slate-800 rounded-xl shadow-md p-6 mb-8">
+          <h2 className="text-xl font-semibold text-slate-800 dark:text-slate-200 mb-4">Current Scenario: {selectedScenario.name}</h2>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
             <div className="bg-blue-50 rounded-lg p-4">
               <div className="flex items-center space-x-3 mb-2">
@@ -83,19 +83,19 @@ export default function RationPlanning() {
             
             <div className="bg-green-50 rounded-lg p-4">
               <div className="flex items-center space-x-3 mb-2">
-                <Droplets className="h-6 w-6 text-green-600" />
-                <span className="font-medium text-slate-800">Safety Status</span>
-              </div>
+            <div className="bg-slate-50 dark:bg-slate-700 rounded-lg p-4">
+              <p className="text-sm text-slate-600 dark:text-slate-400 mb-1">Duration</p>
+              <p className="text-2xl font-bold text-slate-800 dark:text-slate-200">{rationedDays} days</p>
               <p className={`text-2xl font-bold ${
-                (metrics.dailyCaloriesPerPerson[selectedRationingScenario] || 0) >= settings.minimumCaloriesPerDay
-                  ? 'text-green-600'
-                  : 'text-red-600'
+            <div className="bg-slate-50 dark:bg-slate-700 rounded-lg p-4">
+              <p className="text-sm text-slate-600 dark:text-slate-400 mb-1">Calories per Person</p>
+              <p className="text-2xl font-bold text-slate-800 dark:text-slate-200">
               }`}>
                 {(metrics.dailyCaloriesPerPerson[selectedRationingScenario] || 0) >= settings.minimumCaloriesPerDay
                   ? 'Safe'
-                  : 'Critical'
-                }
-              </p>
+            <div className="bg-slate-50 dark:bg-slate-700 rounded-lg p-4">
+              <p className="text-sm text-slate-600 dark:text-slate-400 mb-1">Reduction</p>
+              <p className="text-2xl font-bold text-slate-800 dark:text-slate-200">{selectedScenario.reductionPercentage}%</p>
             </div>
           </div>
           
@@ -108,7 +108,7 @@ export default function RationPlanning() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Rationing Scenarios */}
         <div className="lg:col-span-2">
-          <h2 className="text-xl font-semibold text-slate-800 mb-4">Rationing Scenarios</h2>
+          <h2 className="text-xl font-semibold text-slate-800 dark:text-slate-200 mb-4">Rationing Scenarios</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {rationingScenarios.map((scenario) => (
               <ScenarioCard

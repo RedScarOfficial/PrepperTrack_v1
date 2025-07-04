@@ -51,7 +51,7 @@ export default function NotificationCenter() {
       {/* Notification Bell */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="relative p-2 text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition-colors"
+        className="relative p-2 text-slate-300 dark:text-slate-300 hover:text-white dark:hover:text-white hover:bg-slate-700 dark:hover:bg-slate-700 rounded-lg transition-colors"
       >
         <Bell className="h-6 w-6" />
         {unreadCount > 0 && (
@@ -63,15 +63,15 @@ export default function NotificationCenter() {
 
       {/* Notification Panel */}
       {isOpen && (
-        <div className="absolute right-0 top-full mt-2 w-96 bg-white dark:bg-slate-800 rounded-lg shadow-lg border border-slate-200 dark:border-slate-700 z-50">
-          <div className="p-4 border-b border-slate-200 dark:border-slate-700">
+        <div className="absolute right-0 top-full mt-2 w-96 bg-white dark:bg-slate-800 rounded-lg shadow-lg border border-slate-200 dark:border-slate-600 z-50">
+          <div className="p-4 border-b border-slate-200 dark:border-slate-600">
             <div className="flex items-center justify-between">
               <h3 className="text-lg font-semibold text-slate-800 dark:text-slate-200">Notifications</h3>
               <div className="flex items-center space-x-2">
                 {unreadCount > 0 && (
                   <button
                     onClick={markAllAsRead}
-                    className="p-1 text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200"
+                    className="p-1 text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 transition-colors"
                     title="Mark all as read"
                   >
                     <CheckCheck className="h-4 w-4" />
@@ -79,7 +79,7 @@ export default function NotificationCenter() {
                 )}
                 <button
                   onClick={() => setIsOpen(false)}
-                  className="p-1 text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200"
+                  className="p-1 text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 transition-colors"
                 >
                   <X className="h-4 w-4" />
                 </button>
@@ -93,7 +93,7 @@ export default function NotificationCenter() {
                 </p>
                 <button
                   onClick={handleRequestPermission}
-                  className="text-sm bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded transition-colors"
+                  className="text-sm bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600 text-white px-3 py-1 rounded transition-colors"
                 >
                   Enable Notifications
                 </button>
@@ -104,12 +104,12 @@ export default function NotificationCenter() {
           <div className="max-h-96 overflow-y-auto">
             {notifications.length === 0 ? (
               <div className="p-8 text-center">
-                <Bell className="h-12 w-12 text-slate-300 dark:text-slate-600 mx-auto mb-3" />
-                <p className="text-slate-600 dark:text-slate-400">No notifications</p>
-                <p className="text-sm text-slate-500 dark:text-slate-500">You're all caught up!</p>
+                <Bell className="h-12 w-12 text-slate-300 dark:text-slate-500 mx-auto mb-3" />
+                <p className="text-slate-600 dark:text-slate-300">No notifications</p>
+                <p className="text-sm text-slate-500 dark:text-slate-400">You're all caught up!</p>
               </div>
             ) : (
-              <div className="divide-y divide-slate-200 dark:divide-slate-700">
+              <div className="divide-y divide-slate-200 dark:divide-slate-600">
                 {notifications.map((notification) => {
                   const IconComponent = getNotificationIcon(notification.type);
                   const colorClasses = getNotificationColor(notification.priority);
@@ -117,7 +117,7 @@ export default function NotificationCenter() {
                   return (
                     <div
                       key={notification.id}
-                      className={`p-4 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors ${
+                      className={`p-4 hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors ${
                         !notification.read ? 'bg-blue-50/50 dark:bg-blue-900/10' : ''
                       }`}
                     >
@@ -144,7 +144,7 @@ export default function NotificationCenter() {
                               {!notification.read && (
                                 <button
                                   onClick={() => markAsRead(notification.id)}
-                                  className="p-1 text-slate-400 hover:text-slate-600 dark:text-slate-500 dark:hover:text-slate-300"
+                                  className="p-1 text-slate-400 hover:text-slate-600 dark:text-slate-500 dark:hover:text-slate-300 transition-colors"
                                   title="Mark as read"
                                 >
                                   <Check className="h-3 w-3" />
@@ -152,7 +152,7 @@ export default function NotificationCenter() {
                               )}
                               <button
                                 onClick={() => clearNotification(notification.id)}
-                                className="p-1 text-slate-400 hover:text-slate-600 dark:text-slate-500 dark:hover:text-slate-300"
+                                className="p-1 text-slate-400 hover:text-slate-600 dark:text-slate-500 dark:hover:text-slate-300 transition-colors"
                                 title="Dismiss"
                               >
                                 <X className="h-3 w-3" />
@@ -169,10 +169,10 @@ export default function NotificationCenter() {
           </div>
 
           {notifications.length > 0 && (
-            <div className="p-3 border-t border-slate-200 dark:border-slate-700">
+            <div className="p-3 border-t border-slate-200 dark:border-slate-600">
               <button
                 onClick={clearAllNotifications}
-                className="w-full text-sm text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 py-2 transition-colors"
+                className="w-full text-sm text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 py-2 transition-colors rounded hover:bg-slate-100 dark:hover:bg-slate-700"
               >
                 Clear All Notifications
               </button>

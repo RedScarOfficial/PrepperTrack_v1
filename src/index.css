@@ -86,6 +86,149 @@
     background-color: #475569 !important;
     color: #f1f5f9 !important;
   }
+  
+  /* Enhanced dark mode contrast fixes */
+  .dark .bg-blue-50 {
+    background-color: #1e3a8a !important;
+    color: #dbeafe !important;
+  }
+  
+  .dark .bg-green-50 {
+    background-color: #166534 !important;
+    color: #dcfce7 !important;
+  }
+  
+  .dark .bg-yellow-50 {
+    background-color: #a16207 !important;
+    color: #fef3c7 !important;
+  }
+  
+  .dark .bg-orange-50 {
+    background-color: #c2410c !important;
+    color: #fed7aa !important;
+  }
+  
+  .dark .bg-red-50 {
+    background-color: #dc2626 !important;
+    color: #fecaca !important;
+  }
+  
+  .dark .bg-purple-50 {
+    background-color: #7c3aed !important;
+    color: #e9d5ff !important;
+  }
+  
+  .dark .border-blue-200 {
+    border-color: #3b82f6 !important;
+  }
+  
+  .dark .border-green-200 {
+    border-color: #22c55e !important;
+  }
+  
+  .dark .border-yellow-200 {
+    border-color: #eab308 !important;
+  }
+  
+  .dark .border-orange-200 {
+    border-color: #f97316 !important;
+  }
+  
+  .dark .border-red-200 {
+    border-color: #ef4444 !important;
+  }
+  
+  .dark .border-purple-200 {
+    border-color: #a855f7 !important;
+  }
+  
+  /* Text color improvements for dark mode */
+  .dark .text-blue-800 {
+    color: #dbeafe !important;
+  }
+  
+  .dark .text-green-800 {
+    color: #dcfce7 !important;
+  }
+  
+  .dark .text-yellow-800 {
+    color: #fef3c7 !important;
+  }
+  
+  .dark .text-orange-800 {
+    color: #fed7aa !important;
+  }
+  
+  .dark .text-red-800 {
+    color: #fecaca !important;
+  }
+  
+  .dark .text-purple-800 {
+    color: #e9d5ff !important;
+  }
+  
+  .dark .text-blue-600 {
+    color: #60a5fa !important;
+  }
+  
+  .dark .text-green-600 {
+    color: #4ade80 !important;
+  }
+  
+  .dark .text-yellow-600 {
+    color: #facc15 !important;
+  }
+  
+  .dark .text-orange-600 {
+    color: #fb923c !important;
+  }
+  
+  .dark .text-red-600 {
+    color: #f87171 !important;
+  }
+  
+  .dark .text-purple-600 {
+    color: #c084fc !important;
+  }
+  
+  /* Input and form element improvements */
+  .dark input,
+  .dark textarea,
+  .dark select {
+    background-color: #374151 !important;
+    border-color: #6b7280 !important;
+    color: #f9fafb !important;
+  }
+  
+  .dark input:focus,
+  .dark textarea:focus,
+  .dark select:focus {
+    border-color: #3b82f6 !important;
+    background-color: #1f2937 !important;
+  }
+  
+  .dark input::placeholder,
+  .dark textarea::placeholder {
+    color: #9ca3af !important;
+  }
+  
+  /* Button improvements */
+  .dark .bg-slate-200 {
+    background-color: #475569 !important;
+    color: #f1f5f9 !important;
+  }
+  
+  .dark .hover\:bg-slate-300:hover {
+    background-color: #64748b !important;
+  }
+  
+  .dark .hover\:bg-slate-100:hover {
+    background-color: #475569 !important;
+  }
+  
+  .dark .hover\:bg-slate-50:hover {
+    background-color: #374151 !important;
+  }
 }
 
 /* Display Density Styles */
