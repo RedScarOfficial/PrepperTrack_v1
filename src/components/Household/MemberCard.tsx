@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { User, Calendar, Activity, Droplets, Heart, Shield, Edit2, Trash2, Phone, Award, Briefcase } from 'lucide-react';
 import { HouseholdMember, HouseholdGroup } from '../../types';
 import { usePrepper } from '../../context/PrepperContext';
+import { medicalConditions, getCategoryColor, getCategoryIcon } from '../../data/medicalConditionsData';
+import RequiredSuppliesDisplay from './RequiredSuppliesDisplay';
 
 interface MemberCardProps {
   member: HouseholdMember;
@@ -12,6 +14,18 @@ interface MemberCardProps {
 export default function MemberCard({ member, group, viewMode }: MemberCardProps) {
   const { dispatch } = usePrepper();
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+
+  // Get required supplies for this member's medical conditions
+  const getRequiredSupplies = () => {
+    const allSupplies = new Set<string>();
+    member.medicalConditions?.forEach(conditionName => {
+      const condition = medicalConditions.find(c => c.name === conditionName);
+      if (condition) {
+        condition.requiredSupplies.forEach(supply => allSupplies.add(supply));
+      }
+    });
+    return Array.from(allSupplies);
+  };
 
   const handleDelete = () => {
     dispatch({ type: 'DELETE_HOUSEHOLD_MEMBER', payload: member.id });
@@ -222,17 +236,34 @@ export default function MemberCard({ member, group, viewMode }: MemberCardProps)
             <span className="text-sm font-medium text-slate-700">Medical</span>
           </div>
           <div className="flex flex-wrap gap-1">
-            {member.medicalConditions.slice(0, 2).map((condition, index) => (
-              <span key={index} className="px-2 py-1 bg-red-100 text-red-700 text-xs rounded-full">
-                {condition}
-              </span>
-            ))}
+            {member.medicalConditions.slice(0, 2).map((conditionName, index) => {
+              const condition = medicalConditions.find(c => c.name === conditionName);
+              const categoryColor = condition ? getCategoryColor(condition.category) : 'bg-red-100 text-red-700 border-red-200';
+              const categoryIcon = condition ? getCategoryIcon(condition.category) : '🏥';
+              
+              return (
+                <span key={index} className={`px-2 py-1 text-xs rounded-full border ${categoryColor} flex items-center space-x-1`}>
+                  <span>{categoryIcon}</span>
+                  <span>{conditionName}</span>
+                </span>
+              );
+            })}
             {member.medicalConditions.length > 2 && (
               <span className="px-2 py-1 bg-slate-100 text-slate-600 text-xs rounded-full">
                 +{member.medicalConditions.length - 2} more
               </span>
             )}
           </div>
+        </div>
+      )}
+
+      {/* Required Medical Supplies */}
+      {member.medicalConditions && member.medicalConditions.length > 0 && (
+        <div className="mb-3">
+          <RequiredSuppliesDisplay
+            requiredSupplies={getRequiredSupplies()}
+            memberName={member.name}
+          />
         </div>
       )}
 

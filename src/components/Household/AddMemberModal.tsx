@@ -3,6 +3,8 @@ import { X, Save, Plus, Minus } from 'lucide-react';
 import { usePrepper } from '../../context/PrepperContext';
 import { HouseholdMember, ActivityLevel } from '../../types';
 import { calculateCaloriesByAge, calculateWaterByClimate } from '../../utils/calculations';
+import MedicalConditionTags from './MedicalConditionTags';
+import RequiredSuppliesDisplay from './RequiredSuppliesDisplay';
 
 interface AddMemberModalProps {
   onClose: () => void;
@@ -24,6 +26,8 @@ export default function AddMemberModal({ onClose, onSave }: AddMemberModalProps)
     skills: [''],
     responsibilities: [''],
   });
+
+  const [requiredSupplies, setRequiredSupplies] = useState<string[]>([]);
 
   const handleInputChange = (field: string, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
@@ -195,38 +199,24 @@ export default function AddMemberModal({ onClose, onSave }: AddMemberModalProps)
             </div>
 
             <div className="md:col-span-2">
-              <label className="block text-sm font-medium text-slate-700 mb-2">
-                Medical Conditions
-              </label>
-              {formData.medicalConditions.map((condition, index) => (
-                <div key={index} className="flex items-center space-x-2 mb-2">
-                  <input
-                    type="text"
-                    value={condition}
-                    onChange={(e) => handleArrayChange('medicalConditions', index, e.target.value)}
-                    className="flex-1 px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                    placeholder="e.g., Type 2 Diabetes"
-                  />
-                  {formData.medicalConditions.length > 1 && (
-                    <button
-                      type="button"
-                      onClick={() => removeArrayItem('medicalConditions', index)}
-                      className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
-                    >
-                      <Minus className="h-4 w-4" />
-                    </button>
-                  )}
-                </div>
-              ))}
-              <button
-                type="button"
-                onClick={() => addArrayItem('medicalConditions')}
-                className="flex items-center space-x-2 text-green-600 hover:text-green-700 text-sm"
-              >
-                <Plus className="h-4 w-4" />
-                <span>Add Medical Condition</span>
-              </button>
+              <MedicalConditionTags
+                selectedConditions={formData.medicalConditions.filter(c => c.trim() !== '')}
+                onConditionsChange={(conditions) => {
+                  setFormData(prev => ({ ...prev, medicalConditions: conditions }));
+                }}
+                onSuppliesNeeded={setRequiredSupplies}
+              />
             </div>
+
+            {/* Required Supplies Display */}
+            {requiredSupplies.length > 0 && (
+              <div className="md:col-span-2">
+                <RequiredSuppliesDisplay
+                  requiredSupplies={requiredSupplies}
+                  memberName={formData.name || 'this member'}
+                />
+              </div>
+            )}
 
             <div className="md:col-span-2">
               <label className="block text-sm font-medium text-slate-700 mb-2">
