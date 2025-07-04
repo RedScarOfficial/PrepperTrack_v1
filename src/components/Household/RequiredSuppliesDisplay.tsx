@@ -47,6 +47,8 @@ export default function RequiredSuppliesDisplay({ requiredSupplies, memberName }
       dateAdded: new Date().toISOString().split('T')[0],
       lastUpdated: new Date().toISOString().split('T')[0],
       notes: `Required for ${memberName}'s medical condition`,
+      isMedicalRequired: true,
+      requiredByMembers: [memberName], // This should be member ID, but we'll use name for now
     };
 
     dispatch({ type: 'ADD_INVENTORY_ITEM', payload: newItem });

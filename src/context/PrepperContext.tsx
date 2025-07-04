@@ -37,7 +37,8 @@ type PrepperAction =
   | { type: 'UPDATE_NOTIFICATION_SETTINGS'; payload: Partial<NotificationSettings> }
   | { type: 'UPDATE_SECURITY_SETTINGS'; payload: Partial<SecuritySettings> }
   | { type: 'UPDATE_BATTERY_SAVER_SETTINGS'; payload: Partial<BatterySaverSettings> }
-  | { type: 'IMPORT_ALL_SETTINGS'; payload: AllSettings };
+  | { type: 'IMPORT_ALL_SETTINGS'; payload: AllSettings }
+  | { type: 'ADD_REQUIRED_MEDICAL_ITEMS'; payload: { memberId: string; requiredSupplies: string[] } };
 
 const initialState: PrepperState = {
   inventory: sampleInventory,
@@ -71,7 +72,13 @@ function prepperReducer(state: PrepperState, action: PrepperAction): PrepperStat
     case 'DELETE_INVENTORY_ITEM':
       return {
         ...state,
-        inventory: state.inventory.filter(item => item.id !== action.payload),
+        inventory: state.inventory.filter(item => {
+          // Prevent deletion of required medical items
+          if (item.isMedicalRequired && item.requiredByMembers && item.requiredByMembers.length > 0) {
+            return true; // Keep the item
+          }
+          return item.id !== action.payload;
+        }),
       };
 
     case 'CLEAR_ALL_INVENTORY':
@@ -95,8 +102,23 @@ function prepperReducer(state: PrepperState, action: PrepperAction): PrepperStat
       };
 
     case 'DELETE_HOUSEHOLD_MEMBER':
+      const memberToDelete = action.payload;
+      // Update medical items when member is deleted
+      const updatedInventoryAfterMemberDelete = state.inventory.map(item => {
+        if (item.isMedicalRequired && item.requiredByMembers?.includes(memberToDelete)) {
+          const updatedRequiredBy = item.requiredByMembers.filter(id => id !== memberToDelete);
+          return {
+            ...item,
+            requiredByMembers: updatedRequiredBy,
+            isMedicalRequired: updatedRequiredBy.length > 0,
+          };
+        }
+        return item;
+      });
+      
       return {
         ...state,
+        inventory: updatedInventoryAfterMemberDelete,
         household: state.household.filter(member => member.id !== action.payload),
         householdGroups: state.householdGroups.map(group => ({
           ...group,
@@ -217,6 +239,50 @@ function prepperReducer(state: PrepperState, action: PrepperAction): PrepperStat
         notificationSettings: action.payload.notificationSettings,
         securitySettings: action.payload.securitySettings,
         batterySaverSettings: action.payload.batterySaverSettings,
+      };
+    case 'ADD_REQUIRED_MEDICAL_ITEMS':
+      const { memberId, requiredSupplies } = action.payload;
+      const newMedicalItems: InventoryItem[] = [];
+      const updatedInventoryForMedical = [...state.inventory];
+      
+      requiredSupplies.forEach((supply: string) => {
+        // Check if item already exists
+        const existingItemIndex = updatedInventoryForMedical.findIndex(item => 
+          item.name.toLowerCase() === supply.toLowerCase() && item.category === 'Medical'
+        );
+        
+        if (existingItemIndex >= 0) {
+          // Update existing item
+          const existingItem = updatedInventoryForMedical[existingItemIndex];
+          updatedInventoryForMedical[existingItemIndex] = {
+            ...existingItem,
+            isMedicalRequired: true,
+            requiredByMembers: [...(existingItem.requiredByMembers || []), memberId].filter((id, index, arr) => arr.indexOf(id) === index),
+            lastUpdated: new Date().toISOString().split('T')[0],
+          };
+        } else {
+          // Create new item with 0 quantity (needs to be acquired)
+          const newItem: InventoryItem = {
+            id: `medical-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+            name: supply,
+            category: 'Medical',
+            quantity: 0,
+            unit: 'unit',
+            storageLocation: 'Medical Cabinet',
+            usageRatePerPersonPerDay: 0.01,
+            dateAdded: new Date().toISOString().split('T')[0],
+            lastUpdated: new Date().toISOString().split('T')[0],
+            notes: `Required for medical condition`,
+            isMedicalRequired: true,
+            requiredByMembers: [memberId],
+          };
+          newMedicalItems.push(newItem);
+        }
+      });
+      
+      return {
+        ...state,
+        inventory: [...updatedInventoryForMedical, ...newMedicalItems],
       };
 
     default:

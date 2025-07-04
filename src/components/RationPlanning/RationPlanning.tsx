@@ -83,19 +83,12 @@ export default function RationPlanning() {
             
             <div className="bg-green-50 rounded-lg p-4">
               <div className="flex items-center space-x-3 mb-2">
-            <div className="bg-slate-50 dark:bg-slate-700 rounded-lg p-4">
-              <p className="text-sm text-slate-600 dark:text-slate-400 mb-1">Duration</p>
-              <p className="text-2xl font-bold text-slate-800 dark:text-slate-200">{rationedDays} days</p>
-              <p className={`text-2xl font-bold ${
-            <div className="bg-slate-50 dark:bg-slate-700 rounded-lg p-4">
-              <p className="text-sm text-slate-600 dark:text-slate-400 mb-1">Calories per Person</p>
-              <p className="text-2xl font-bold text-slate-800 dark:text-slate-200">
-              }`}>
-                {(metrics.dailyCaloriesPerPerson[selectedRationingScenario] || 0) >= settings.minimumCaloriesPerDay
-                  ? 'Safe'
-            <div className="bg-slate-50 dark:bg-slate-700 rounded-lg p-4">
-              <p className="text-sm text-slate-600 dark:text-slate-400 mb-1">Reduction</p>
-              <p className="text-2xl font-bold text-slate-800 dark:text-slate-200">{selectedScenario.reductionPercentage}%</p>
+                <Droplets className="h-6 w-6 text-green-600" />
+                <span className="font-medium text-slate-800">Status</span>
+              </div>
+              <p className="text-2xl font-bold text-green-600">
+                {(metrics.dailyCaloriesPerPerson[selectedRationingScenario] || 0) >= settings.minimumCaloriesPerDay ? 'Safe' : 'Warning'}
+              </p>
             </div>
           </div>
           

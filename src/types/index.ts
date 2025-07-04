@@ -12,6 +12,8 @@ export interface InventoryItem {
   notes?: string;
   dateAdded: string;
   lastUpdated: string;
+  isMedicalRequired?: boolean; // Indicates if this item is required for a household member's medical condition
+  requiredByMembers?: string[]; // Array of member IDs who require this medical item
 }
 
 export interface HouseholdMember {
