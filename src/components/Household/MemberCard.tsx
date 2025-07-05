@@ -5,10 +5,17 @@ import { usePrepper } from '../../context/PrepperContext';
 import { medicalConditions, getCategoryColor, getCategoryIcon } from '../../data/medicalConditionsData';
 import RequiredSuppliesDisplay from './RequiredSuppliesDisplay';
 
-const MemberCard = ({ member, group, viewMode }: { member: HouseholdMember; group?: HouseholdGroup; viewMode: 'list' | 'grid' }) => {
+interface MemberCardProps {
+  member: HouseholdMember;
+  group?: HouseholdGroup;
+  viewMode: 'grid' | 'list';
+}
+
+export default function MemberCard({ member, group, viewMode }: MemberCardProps) {
   const { dispatch } = usePrepper();
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
+  // Get required supplies for this member's medical conditions
   const getRequiredSupplies = () => {
     const allSupplies = new Set<string>();
     member.medicalConditions?.forEach(conditionName => {
@@ -305,6 +312,4 @@ const MemberCard = ({ member, group, viewMode }: { member: HouseholdMember; grou
       )}
     </div>
   );
-};
-
-export default MemberCard;
+}
