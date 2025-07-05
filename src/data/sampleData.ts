@@ -178,45 +178,6 @@ export const sampleGroups: HouseholdGroup[] = [
   },
 ];
 
-export const defaultSettings: PrepperSettings = {
-  climateZone: 'temperate',
-  preparednessGoalDays: 90,
-  minimumCaloriesPerDay: 1200,
-  waterSafetyMargin: 1.2,
-  userPreferences: defaultUserPreferences,
-  notificationSettings: defaultNotificationSettings,
-  securitySettings: defaultSecuritySettings,
-  batterySaverSettings: defaultBatterySaverSettings,
-  emergencyScenario: null,
-};
-
-export const defaultRationingScenarios: RationingScenario[] = [
-  {
-    id: 'normal',
-    name: 'Normal Usage',
-    reductionPercentage: 0,
-    description: 'Full caloric intake and normal consumption patterns',
-  },
-  {
-    id: 'light_rationing',
-    name: 'Light Rationing',
-    reductionPercentage: 25,
-    description: 'Reduce consumption by 25% - skip snacks, smaller portions',
-  },
-  {
-    id: 'moderate_rationing',
-    name: 'Moderate Rationing',
-    reductionPercentage: 50,
-    description: 'Reduce consumption by 50% - two meals per day, minimal snacking',
-  },
-  {
-    id: 'severe_rationing',
-    name: 'Severe Rationing',
-    reductionPercentage: 75,
-    description: 'Reduce consumption by 75% - survival mode, one meal per day',
-  },
-];
-
 export const defaultUserPreferences: UserPreferences = {
   theme: 'system',
   language: 'en',
@@ -276,3 +237,42 @@ export const defaultBatterySaverSettings: BatterySaverSettings = {
   simplifiedUI: true,
   darkMode: true,
 };
+
+export const defaultSettings: PrepperSettings = {
+  climateZone: 'temperate',
+  preparednessGoalDays: 90,
+  minimumCaloriesPerDay: 1200,
+  waterSafetyMargin: 1.2,
+  userPreferences: defaultUserPreferences,
+  notificationSettings: defaultNotificationSettings,
+  securitySettings: defaultSecuritySettings,
+  batterySaverSettings: defaultBatterySaverSettings,
+  emergencyScenario: null,
+};
+
+export const defaultRationingScenarios: RationingScenario[] = [
+  {
+    id: 'normal',
+    name: 'Normal Usage',
+    reductionPercentage: 0,
+    description: 'Full caloric intake and normal consumption patterns',
+  },
+  {
+    id: 'light_rationing',
+    name: 'Light Rationing',
+    reductionPercentage: 25,
+    description: 'Reduce consumption by 25% - skip snacks, smaller portions',
+  },
+  {
+    id: 'moderate_rationing',
+    name: 'Moderate Rationing',
+    reductionPercentage: 50,
+    description: 'Reduce consumption by 50% - two meals per day, minimal snacking',
+  },
+  {
+    id: 'severe_rationing',
+    name: 'Severe Rationing',
+    reductionPercentage: 75,
+    description: 'Reduce consumption by 75% - survival mode, one meal per day',
+  },
+];
