@@ -587,7 +587,6 @@ export default function NotificationSettings() {
               </div>
               
               <div className="mt-4 p-3 bg-orange-100 dark:bg-orange-900/30 rounded-lg border border-orange-200 dark:border-orange-700">
-                <div className="flex items-center space-x-2 mb-2">
                   <Mail className="h-4 w-4 text-orange-600 dark:text-orange-400" />
                   <span className="font-medium text-orange-800 dark:text-orange-200">Email Notifications</span>
                 </div>

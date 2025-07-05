@@ -13,7 +13,7 @@ export default function MedicalItemRow({ item }: MedicalItemRowProps) {
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
   const handleDelete = () => {
-    if (item.isMedicalRequired && item.requiredByMembers && item.requiredByMembers.length > 0) {
+    if (item.isMedicalRequired && item.requiredByMembers?.length > 0) {
       alert('Cannot delete this medical item as it is required for household members\' medical conditions. Remove the medical condition from the member first.');
       return;
     }
