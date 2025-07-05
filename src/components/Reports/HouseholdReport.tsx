@@ -29,22 +29,22 @@ export default function HouseholdReport({ household, groups }: HouseholdReportPr
     <div className="space-y-8">
       {/* Summary Statistics */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <div className="bg-blue-50 rounded-lg p-6 border border-blue-200">
+        <div className="bg-blue-50 dark:bg-blue-900/50 rounded-lg p-6 border border-blue-200 dark:border-blue-600">
           <div className="flex items-center space-x-3 mb-3">
-            <Users className="h-6 w-6 text-blue-600" />
-            <span className="font-semibold text-blue-800">Total Members</span>
+            <Users className="h-6 w-6 text-blue-600 dark:text-blue-400" />
+            <span className="font-semibold text-blue-800 dark:text-blue-200">Total Members</span>
           </div>
-          <p className="text-3xl font-bold text-blue-800">{household.length}</p>
-          <p className="text-sm text-blue-600">Household size</p>
+          <p className="text-3xl font-bold text-blue-800 dark:text-blue-200">{household.length}</p>
+          <p className="text-sm text-blue-600 dark:text-blue-300">Household size</p>
         </div>
 
-        <div className="bg-green-50 rounded-lg p-6 border border-green-200">
+        <div className="bg-green-50 dark:bg-green-900/50 rounded-lg p-6 border border-green-200 dark:border-green-600">
           <div className="flex items-center space-x-3 mb-3">
-            <Activity className="h-6 w-6 text-green-600" />
-            <span className="font-semibold text-green-800">Daily Calories</span>
+            <Activity className="h-6 w-6 text-green-600 dark:text-green-400" />
+            <span className="font-semibold text-green-800 dark:text-green-200">Daily Calories</span>
           </div>
-          <p className="text-3xl font-bold text-green-800">{totalCalories.toLocaleString()}</p>
-          <p className="text-sm text-green-600">Total household</p>
+          <p className="text-3xl font-bold text-green-800 dark:text-green-200">{totalCalories.toLocaleString()}</p>
+          <p className="text-sm text-green-600 dark:text-green-300">Total household</p>
         </div>
 
         <div className="bg-purple-50 rounded-lg p-6 border border-purple-200">

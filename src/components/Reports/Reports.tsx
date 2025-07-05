@@ -74,40 +74,40 @@ export default function Reports() {
         return (
           <div className="space-y-8">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-6 border border-blue-200">
+              <div className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/50 dark:to-blue-800/50 rounded-xl p-6 border border-blue-200 dark:border-blue-600">
                 <div className="flex items-center justify-between mb-4">
-                  <Package className="h-8 w-8 text-blue-600" />
-                  <span className="text-2xl font-bold text-blue-800">{inventory.length}</span>
+                  <Package className="h-8 w-8 text-blue-600 dark:text-blue-400" />
+                  <span className="text-2xl font-bold text-blue-800 dark:text-blue-200">{inventory.length}</span>
                 </div>
-                <h3 className="font-semibold text-blue-800">Total Items</h3>
-                <p className="text-sm text-blue-600">Inventory count</p>
+                <h3 className="font-semibold text-blue-800 dark:text-blue-200">Total Items</h3>
+                <p className="text-sm text-blue-600 dark:text-blue-300">Inventory count</p>
               </div>
 
-              <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-xl p-6 border border-green-200">
+              <div className="bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900/50 dark:to-green-800/50 rounded-xl p-6 border border-green-200 dark:border-green-600">
                 <div className="flex items-center justify-between mb-4">
-                  <Users className="h-8 w-8 text-green-600" />
-                  <span className="text-2xl font-bold text-green-800">{household.length}</span>
+                  <Users className="h-8 w-8 text-green-600 dark:text-green-400" />
+                  <span className="text-2xl font-bold text-green-800 dark:text-green-200">{household.length}</span>
                 </div>
-                <h3 className="font-semibold text-green-800">Household Members</h3>
-                <p className="text-sm text-green-600">Total people</p>
+                <h3 className="font-semibold text-green-800 dark:text-green-200">Household Members</h3>
+                <p className="text-sm text-green-600 dark:text-green-300">Total people</p>
               </div>
 
-              <div className="bg-gradient-to-br from-orange-50 to-orange-100 rounded-xl p-6 border border-orange-200">
+              <div className="bg-gradient-to-br from-orange-50 to-orange-100 dark:from-orange-900/50 dark:to-orange-800/50 rounded-xl p-6 border border-orange-200 dark:border-orange-600">
                 <div className="flex items-center justify-between mb-4">
-                  <Calendar className="h-8 w-8 text-orange-600" />
-                  <span className="text-2xl font-bold text-orange-800">{metrics.normalUsageDays}</span>
+                  <Calendar className="h-8 w-8 text-orange-600 dark:text-orange-400" />
+                  <span className="text-2xl font-bold text-orange-800 dark:text-orange-200">{metrics.normalUsageDays}</span>
                 </div>
-                <h3 className="font-semibold text-orange-800">Days of Supply</h3>
-                <p className="text-sm text-orange-600">Normal usage</p>
+                <h3 className="font-semibold text-orange-800 dark:text-orange-200">Days of Supply</h3>
+                <p className="text-sm text-orange-600 dark:text-orange-300">Normal usage</p>
               </div>
 
-              <div className="bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl p-6 border border-purple-200">
+              <div className="bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-900/50 dark:to-purple-800/50 rounded-xl p-6 border border-purple-200 dark:border-purple-600">
                 <div className="flex items-center justify-between mb-4">
-                  <AlertTriangle className="h-8 w-8 text-purple-600" />
-                  <span className="text-2xl font-bold text-purple-800">{metrics.warningFlags.length}</span>
+                  <AlertTriangle className="h-8 w-8 text-purple-600 dark:text-purple-400" />
+                  <span className="text-2xl font-bold text-purple-800 dark:text-purple-200">{metrics.warningFlags.length}</span>
                 </div>
-                <h3 className="font-semibold text-purple-800">Active Alerts</h3>
-                <p className="text-sm text-purple-600">Warnings & issues</p>
+                <h3 className="font-semibold text-purple-800 dark:text-purple-200">Active Alerts</h3>
+                <p className="text-sm text-purple-600 dark:text-purple-300">Warnings & issues</p>
               </div>
             </div>
 

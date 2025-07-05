@@ -53,21 +53,21 @@ export default function InventoryReport({ inventory, compact = false }: Inventor
     return (
       <div className="space-y-6">
         <div>
-          <h3 className="text-lg font-semibold text-slate-200 mb-4">Inventory Summary</h3>
+          <h3 className="text-lg font-semibold text-slate-800 dark:text-slate-200 mb-4">Inventory Summary</h3>
           <div className="grid grid-cols-2 gap-4">
-            <div className="bg-slate-50 rounded-lg p-4">
+            <div className="bg-slate-50 dark:bg-slate-700 rounded-lg p-4">
               <div className="flex items-center space-x-2 mb-2">
-                <Package className="h-5 w-5 text-slate-600" />
-                <span className="font-medium text-slate-800">Total Items</span>
+                <Package className="h-5 w-5 text-slate-600 dark:text-slate-300" />
+                <span className="font-medium text-slate-800 dark:text-slate-200">Total Items</span>
               </div>
-              <p className="text-2xl font-bold text-slate-800">{totalItems}</p>
+              <p className="text-2xl font-bold text-slate-800 dark:text-slate-200">{totalItems}</p>
             </div>
-            <div className="bg-slate-50 rounded-lg p-4">
+            <div className="bg-slate-50 dark:bg-slate-700 rounded-lg p-4">
               <div className="flex items-center space-x-2 mb-2">
-                <DollarSign className="h-5 w-5 text-slate-600" />
-                <span className="font-medium text-slate-800">Total Value</span>
+                <DollarSign className="h-5 w-5 text-slate-600 dark:text-slate-300" />
+                <span className="font-medium text-slate-800 dark:text-slate-200">Total Value</span>
               </div>
-              <p className="text-2xl font-bold text-slate-800">${totalValue.toFixed(0)}</p>
+              <p className="text-2xl font-bold text-slate-800 dark:text-slate-200">${totalValue.toFixed(0)}</p>
             </div>
           </div>
         </div>

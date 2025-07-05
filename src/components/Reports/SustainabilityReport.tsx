@@ -16,31 +16,31 @@ export default function SustainabilityReport({ metrics, scenarios, household }: 
     <div className="space-y-8">
       {/* Overview Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="bg-blue-50 rounded-lg p-6 border border-blue-200">
+        <div className="bg-blue-50 dark:bg-blue-900/50 rounded-lg p-6 border border-blue-200 dark:border-blue-600">
           <div className="flex items-center space-x-3 mb-3">
-            <Calendar className="h-6 w-6 text-blue-600" />
-            <span className="font-semibold text-blue-800">Normal Usage</span>
+            <Calendar className="h-6 w-6 text-blue-600 dark:text-blue-400" />
+            <span className="font-semibold text-blue-800 dark:text-blue-200">Normal Usage</span>
           </div>
-          <p className="text-3xl font-bold text-blue-800">{metrics.normalUsageDays}</p>
-          <p className="text-sm text-blue-600">Days of supply</p>
+          <p className="text-3xl font-bold text-blue-800 dark:text-blue-200">{metrics.normalUsageDays}</p>
+          <p className="text-sm text-blue-600 dark:text-blue-300">Days of supply</p>
         </div>
 
-        <div className="bg-green-50 rounded-lg p-6 border border-green-200">
+        <div className="bg-green-50 dark:bg-green-900/50 rounded-lg p-6 border border-green-200 dark:border-green-600">
           <div className="flex items-center space-x-3 mb-3">
-            <Users className="h-6 w-6 text-green-600" />
-            <span className="font-semibold text-green-800">Household Size</span>
+            <Users className="h-6 w-6 text-green-600 dark:text-green-400" />
+            <span className="font-semibold text-green-800 dark:text-green-200">Household Size</span>
           </div>
-          <p className="text-3xl font-bold text-green-800">{household.length}</p>
-          <p className="text-sm text-green-600">Total members</p>
+          <p className="text-3xl font-bold text-green-800 dark:text-green-200">{household.length}</p>
+          <p className="text-sm text-green-600 dark:text-green-300">Total members</p>
         </div>
 
-        <div className="bg-orange-50 rounded-lg p-6 border border-orange-200">
+        <div className="bg-orange-50 dark:bg-orange-900/50 rounded-lg p-6 border border-orange-200 dark:border-orange-600">
           <div className="flex items-center space-x-3 mb-3">
-            <Target className="h-6 w-6 text-orange-600" />
-            <span className="font-semibold text-orange-800">Daily Calories</span>
+            <Target className="h-6 w-6 text-orange-600 dark:text-orange-400" />
+            <span className="font-semibold text-orange-800 dark:text-orange-200">Daily Calories</span>
           </div>
-          <p className="text-3xl font-bold text-orange-800">{Math.round(avgCaloriesPerPerson)}</p>
-          <p className="text-sm text-orange-600">Average per person</p>
+          <p className="text-3xl font-bold text-orange-800 dark:text-orange-200">{Math.round(avgCaloriesPerPerson)}</p>
+          <p className="text-sm text-orange-600 dark:text-orange-300">Average per person</p>
         </div>
       </div>
 

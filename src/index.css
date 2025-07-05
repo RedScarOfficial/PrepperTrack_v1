@@ -190,6 +190,52 @@
   .dark .text-purple-600 {
     color: #c084fc !important;
   }
+
+  /* Improved contrast for warning alerts in dark mode */
+  .dark .bg-red-50.border-red-200 {
+    background-color: rgba(220, 38, 38, 0.3) !important;
+    border-color: rgba(220, 38, 38, 0.6) !important;
+    color: #fecaca !important;
+  }
+  
+  .dark .bg-yellow-50.border-yellow-200 {
+    background-color: rgba(234, 179, 8, 0.3) !important;
+    border-color: rgba(234, 179, 8, 0.6) !important;
+    color: #fef3c7 !important;
+  }
+  
+  .dark .bg-orange-50.border-orange-200 {
+    background-color: rgba(249, 115, 22, 0.3) !important;
+    border-color: rgba(249, 115, 22, 0.6) !important;
+    color: #fed7aa !important;
+  }
+  
+  /* Improved contrast for report cards in dark mode */
+  .dark .bg-gradient-to-br.from-blue-50.to-blue-100,
+  .dark .bg-gradient-to-br.from-green-50.to-green-100,
+  .dark .bg-gradient-to-br.from-orange-50.to-orange-100,
+  .dark .bg-gradient-to-br.from-purple-50.to-purple-100,
+  .dark .bg-gradient-to-br.from-red-50.to-red-100 {
+    background: rgba(30, 58, 138, 0.3) !important;
+    color: #e0f2fe !important;
+  }
+  
+  /* Ensure text in colored backgrounds is visible */
+  .dark .bg-blue-50 *,
+  .dark .bg-green-50 *,
+  .dark .bg-yellow-50 *,
+  .dark .bg-orange-50 *,
+  .dark .bg-red-50 *,
+  .dark .bg-purple-50 * {
+    color: white !important;
+  }
+  
+  /* Fix for warning list items in dark mode */
+  .dark .bg-red-50.border-red-200 *,
+  .dark .bg-yellow-50.border-yellow-200 *,
+  .dark .bg-blue-50.border-blue-200 * {
+    color: white !important;
+  }
   
   /* Input and form element improvements */
   .dark input,

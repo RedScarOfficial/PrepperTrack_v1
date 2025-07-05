@@ -93,28 +93,28 @@ export default function ExpirationReport({ inventory, compact = false }: Expirat
     return (
       <div className="space-y-6">
         <div>
-          <h3 className="text-lg font-semibold text-slate-800 mb-4">Expiration Alerts</h3>
+          <h3 className="text-lg font-semibold text-slate-800 dark:text-slate-200 mb-4">Expiration Alerts</h3>
           <div className="grid grid-cols-3 gap-4 mb-4">
-            <div className="bg-red-50 rounded-lg p-4 border border-red-200">
+            <div className="bg-red-50 dark:bg-red-900/50 rounded-lg p-4 border border-red-200 dark:border-red-600">
               <div className="flex items-center space-x-2 mb-2">
-                <AlertTriangle className="h-5 w-5 text-red-600" />
-                <span className="font-medium text-red-800">Expired</span>
+                <AlertTriangle className="h-5 w-5 text-red-600 dark:text-red-400" />
+                <span className="font-medium text-red-800 dark:text-red-200">Expired</span>
               </div>
-              <p className="text-2xl font-bold text-red-800">{categorizedItems['Expired']?.length || 0}</p>
+              <p className="text-2xl font-bold text-red-800 dark:text-red-200">{categorizedItems['Expired']?.length || 0}</p>
             </div>
-            <div className="bg-yellow-50 rounded-lg p-4 border border-yellow-200">
+            <div className="bg-yellow-50 dark:bg-yellow-900/50 rounded-lg p-4 border border-yellow-200 dark:border-yellow-600">
               <div className="flex items-center space-x-2 mb-2">
-                <Clock className="h-5 w-5 text-yellow-600" />
-                <span className="font-medium text-yellow-800">This Week</span>
+                <Clock className="h-5 w-5 text-yellow-600 dark:text-yellow-400" />
+                <span className="font-medium text-yellow-800 dark:text-yellow-200">This Week</span>
               </div>
-              <p className="text-2xl font-bold text-yellow-800">{categorizedItems['Expires This Week']?.length || 0}</p>
+              <p className="text-2xl font-bold text-yellow-800 dark:text-yellow-200">{categorizedItems['Expires This Week']?.length || 0}</p>
             </div>
-            <div className="bg-orange-50 rounded-lg p-4 border border-orange-200">
+            <div className="bg-orange-50 dark:bg-orange-900/50 rounded-lg p-4 border border-orange-200 dark:border-orange-600">
               <div className="flex items-center space-x-2 mb-2">
-                <Calendar className="h-5 w-5 text-orange-600" />
-                <span className="font-medium text-orange-800">This Month</span>
+                <Calendar className="h-5 w-5 text-orange-600 dark:text-orange-400" />
+                <span className="font-medium text-orange-800 dark:text-orange-200">This Month</span>
               </div>
-              <p className="text-2xl font-bold text-orange-800">{categorizedItems['Expires This Month']?.length || 0}</p>
+              <p className="text-2xl font-bold text-orange-800 dark:text-orange-200">{categorizedItems['Expires This Month']?.length || 0}</p>
             </div>
           </div>
         </div>
