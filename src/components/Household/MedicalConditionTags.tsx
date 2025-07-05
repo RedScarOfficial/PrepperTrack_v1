@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Plus, X, Search, AlertTriangle } from 'lucide-react';
 import { medicalConditions, getCategoryColor, getCategoryIcon, MedicalCondition } from '../../data/medicalConditionsData';
+import { usePrepper } from '../../context/PrepperContext';
 
 interface MedicalConditionTagsProps {
   selectedConditions: string[];
@@ -15,6 +16,7 @@ export default function MedicalConditionTags({
 }: MedicalConditionTagsProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
+  const { dispatch } = usePrepper();
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
 
   const categories = [
@@ -36,6 +38,17 @@ export default function MedicalConditionTags({
   const handleAddCondition = (condition: MedicalCondition) => {
     const newConditions = [...selectedConditions, condition.name];
     onConditionsChange(newConditions);
+    
+    // Add required medical supplies to inventory
+    if (condition.requiredSupplies.length > 0) {
+      dispatch({
+        type: 'ADD_REQUIRED_MEDICAL_ITEMS',
+        payload: {
+          memberId: 'temp-id', // This will be replaced with the actual member ID when the member is saved
+          requiredSupplies: condition.requiredSupplies
+        }
+      });
+    }
     
     // Collect all required supplies for all selected conditions
     if (onSuppliesNeeded) {

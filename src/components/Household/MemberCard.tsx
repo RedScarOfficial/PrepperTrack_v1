@@ -27,7 +27,31 @@ export default function MemberCard({ member, group, viewMode }: MemberCardProps)
     return Array.from(allSupplies);
   };
 
+  // Get required supplies for this member's medical conditions
+  const getRequiredSupplies = () => {
+    const allSupplies = new Set<string>();
+    member.medicalConditions?.forEach(conditionName => {
+      const condition = medicalConditions.find(c => c.name === conditionName);
+      if (condition) {
+        condition.requiredSupplies.forEach(supply => allSupplies.add(supply));
+      }
+    });
+    return Array.from(allSupplies);
+  };
+
   const handleDelete = () => {
+    // Check if member has medical conditions with required supplies
+    const requiredSupplies = getRequiredSupplies();
+    if (requiredSupplies.length > 0) {
+      const confirmDelete = window.confirm(
+        `${member.name} has medical conditions that require supplies. Deleting this member will remove their requirements from the medical inventory. Continue?`
+      );
+      if (!confirmDelete) {
+        setShowDeleteConfirm(false);
+        return;
+      }
+    }
+    
     dispatch({ type: 'DELETE_HOUSEHOLD_MEMBER', payload: member.id });
     setShowDeleteConfirm(false);
   };

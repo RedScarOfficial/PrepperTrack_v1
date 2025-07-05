@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { InventoryItem, NotificationSettings } from '../types';
 
 interface NotificationHookOptions {
@@ -13,6 +13,7 @@ interface Notification {
   message: string;
   timestamp: Date;
   read: boolean;
+  emailSent?: boolean;
   priority: 'low' | 'medium' | 'high' | 'critical';
   itemId?: string;
 }
@@ -20,6 +21,7 @@ interface Notification {
 export function useNotifications({ inventory, settings }: NotificationHookOptions) {
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [permission, setPermission] = useState<NotificationPermission>('default');
+  const emailSentRef = useRef<Set<string>>(new Set());
 
   // Request notification permission
   const requestPermission = useCallback(async () => {
@@ -31,7 +33,7 @@ export function useNotifications({ inventory, settings }: NotificationHookOption
     return false;
   }, []);
 
-  // Check for expiring items
+  // Check for expiring items and send notifications
   const checkExpirations = useCallback(() => {
     if (!settings.enableNotifications || !settings.expirationAlerts) {
       return;
@@ -40,6 +42,7 @@ export function useNotifications({ inventory, settings }: NotificationHookOption
     const today = new Date();
     const newNotifications: Notification[] = [];
 
+    // Check each inventory item for expiration
     inventory.forEach(item => {
       if (!item.expirationDate) return;
 
@@ -47,6 +50,7 @@ export function useNotifications({ inventory, settings }: NotificationHookOption
       const daysUntilExpiry = Math.ceil((expDate.getTime() - today.getTime()) / (24 * 60 * 60 * 1000));
 
       settings.expirationDays.forEach(alertDays => {
+        // Create notification for items expiring in exactly alertDays
         if (daysUntilExpiry === alertDays) {
           const notification: Notification = {
             id: `exp-${item.id}-${alertDays}`,
@@ -56,9 +60,15 @@ export function useNotifications({ inventory, settings }: NotificationHookOption
             timestamp: new Date(),
             read: false,
             priority: alertDays <= 7 ? 'high' : alertDays <= 30 ? 'medium' : 'low',
+            emailSent: false,
             itemId: item.id,
           };
           newNotifications.push(notification);
+          
+          // Send email for 7-day expiration alerts if enabled
+          if (alertDays === 7 && settings.emailExpirationAlerts && settings.emailNotifications) {
+            sendExpirationEmail(item, daysUntilExpiry);
+          }
         }
       });
 
@@ -72,6 +82,7 @@ export function useNotifications({ inventory, settings }: NotificationHookOption
           timestamp: new Date(),
           read: false,
           priority: 'critical',
+          emailSent: false,
           itemId: item.id,
         };
         newNotifications.push(notification);
@@ -79,6 +90,7 @@ export function useNotifications({ inventory, settings }: NotificationHookOption
     });
 
     if (newNotifications.length > 0) {
+      // Add new notifications to the state
       setNotifications(prev => [...prev, ...newNotifications]);
       
       // Show browser notifications if enabled
@@ -92,6 +104,43 @@ export function useNotifications({ inventory, settings }: NotificationHookOption
     }
   }, [inventory, settings, permission]);
 
+  // Send email notification for expiring items
+  const sendExpirationEmail = useCallback((item: InventoryItem, daysUntilExpiry: number) => {
+    if (!settings.emailConfig?.toEmail || !settings.emailProvider || settings.emailProvider === 'none') {
+      return;
+    }
+    
+    // Check if we've already sent an email for this item's expiration
+    const emailKey = `exp-${item.id}-${daysUntilExpiry}`;
+    if (emailSentRef.current.has(emailKey)) {
+      return;
+    }
+    
+    // In a real app, this would call an API endpoint to send the email
+    // For this demo, we'll just log it
+    console.log(`[EMAIL] Sending expiration alert for ${item.name} (expires in ${daysUntilExpiry} days)`);
+    console.log(`[EMAIL] To: ${settings.emailConfig.toEmail}`);
+    console.log(`[EMAIL] From: ${settings.emailConfig.fromName} <${settings.emailConfig.fromEmail}>`);
+    console.log(`[EMAIL] Subject: PrepperTrack Alert: ${item.name} expires in ${daysUntilExpiry} days`);
+    console.log(`[EMAIL] Body: Your item "${item.name}" will expire in ${daysUntilExpiry} days (on ${item.expirationDate}). Please check your inventory and use or replace this item soon.`);
+    
+    // Mark as sent
+    emailSentRef.current.add(emailKey);
+    
+    // Update notification to mark email as sent
+    setNotifications(prev => 
+      prev.map(notification => 
+        notification.id === `exp-${item.id}-${daysUntilExpiry}`
+          ? { ...notification, emailSent: true }
+          : notification
+      )
+    );
+    
+    // In a real implementation, you would use the appropriate email service based on settings.emailProvider
+    // For example, SendGrid, Mailgun, etc.
+    
+  }, [settings.emailConfig, settings.emailProvider]);
+
   // Show browser notification
   const showBrowserNotification = useCallback((notification: Notification) => {
     if ('Notification' in window && permission === 'granted') {
@@ -99,6 +148,7 @@ export function useNotifications({ inventory, settings }: NotificationHookOption
         body: notification.message,
         icon: '/favicon.ico',
         badge: '/favicon.ico',
+        image: notification.type === 'expiration' ? '/expiration-image.png' : undefined,
         tag: notification.id,
         requireInteraction: notification.priority === 'critical',
       });
@@ -116,7 +166,7 @@ export function useNotifications({ inventory, settings }: NotificationHookOption
         }, 5000);
       }
     }
-  }, [permission]);
+  }, [permission, settings.pushNotifications]);
 
   // Check if in quiet hours
   const isQuietHours = useCallback(() => {
@@ -242,5 +292,6 @@ export function useNotifications({ inventory, settings }: NotificationHookOption
     getUnreadCount,
     getNotificationsByType,
     isQuietHours: isQuietHours(),
+    sendExpirationEmail,
   };
 }

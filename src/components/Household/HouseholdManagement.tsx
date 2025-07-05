@@ -18,6 +18,7 @@ export default function HouseholdManagement() {
   const [selectedGroup, setSelectedGroup] = useState<string>('all');
   const [showAddMember, setShowAddMember] = useState(false);
   const [showAddGroup, setShowAddGroup] = useState(false);
+  const { dispatch } = usePrepper();
 
   const filteredMembers = household.filter(member => {
     const matchesSearch = member.name.toLowerCase().includes(searchTerm.toLowerCase()) ||

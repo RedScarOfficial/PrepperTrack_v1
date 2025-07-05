@@ -82,6 +82,28 @@ export default function AddMemberModal({ onClose, onSave }: AddMemberModalProps)
       specialNeeds: [],
     };
 
+    // Add required medical supplies to inventory with the correct member ID
+    if (formData.medicalConditions.length > 0) {
+      const allRequiredSupplies = new Set<string>();
+      
+      formData.medicalConditions.forEach(conditionName => {
+        const condition = medicalConditions.find(c => c.name === conditionName);
+        if (condition) {
+          condition.requiredSupplies.forEach(supply => allRequiredSupplies.add(supply));
+        }
+      });
+      
+      if (allRequiredSupplies.size > 0) {
+        dispatch({
+          type: 'ADD_REQUIRED_MEDICAL_ITEMS',
+          payload: {
+            memberId: newMember.id,
+            requiredSupplies: Array.from(allRequiredSupplies)
+          }
+        });
+      }
+    }
+
     dispatch({ type: 'ADD_HOUSEHOLD_MEMBER', payload: newMember });
     onSave();
   };

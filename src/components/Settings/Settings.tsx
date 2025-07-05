@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Settings as SettingsIcon, Save, RotateCcw, User, Globe, Shield, Bell, Database, Download, Upload, Trash2, Battery } from 'lucide-react';
+import { Settings as SettingsIcon, Save, RotateCcw, User, Globe, Shield, Bell, Database, Download, Upload, Trash2, Battery, Mail } from 'lucide-react';
 import { usePrepper } from '../../context/PrepperContext';
 import { PrepperSettings, ClimateZone } from '../../types';
 import GeneralSettings from './GeneralSettings';
@@ -23,7 +23,7 @@ export default function Settings() {
     { id: 'general', label: 'General', icon: SettingsIcon, description: 'Basic system configuration' },
     { id: 'preferences', label: 'Preferences', icon: User, description: 'Personal preferences and display options' },
     { id: 'security', label: 'Security', icon: Shield, description: 'Security and privacy settings' },
-    { id: 'notifications', label: 'Notifications', icon: Bell, description: 'Alert and notification preferences' },
+    { id: 'notifications', label: 'Notifications', icon: Bell, description: 'Alerts and notifications' },
     { id: 'battery', label: 'Battery Saver', icon: Battery, description: 'Mobile battery optimization settings' },
     { id: 'data', label: 'Data Management', icon: Database, description: 'Import, export, and backup options' },
   ] as const;
