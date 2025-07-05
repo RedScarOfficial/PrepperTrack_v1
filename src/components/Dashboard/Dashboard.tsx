@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Users, Apple, Droplets, DollarSign, AlertTriangle, Calendar, Target, Shield, Zap, Waves, Virus, X } from 'lucide-react';
+import { Users, Apple, Droplets, DollarSign, AlertTriangle, Calendar, Target, Shield, Zap, Waves, Brush as Virus, X } from 'lucide-react';
 import { usePrepper } from '../../context/PrepperContext';
 import { calculateSustainabilityMetrics, calculateWaterNeedsWithSafetyMargin, calculatePreparednessStatus, getPreparednessStatusColor, getPreparednessStatusBgColor, adjustInventoryForEmergency } from '../../utils/calculations';
 import MetricCard from './MetricCard';

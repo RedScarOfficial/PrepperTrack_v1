@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Zap, Waves, Virus, X, AlertTriangle, Clock, Home, Check } from 'lucide-react';
+import { Zap, Waves, Brush as Virus, X, AlertTriangle, Clock, Home, Check } from 'lucide-react';
 import { usePrepper } from '../../context/PrepperContext';
 import { EmergencyScenario } from '../../types';
 import { getPowerOutageTips, getFloodTips, getPandemicTips } from '../../data/emergencyTips';
