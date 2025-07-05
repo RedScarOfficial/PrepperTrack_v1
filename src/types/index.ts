@@ -14,6 +14,7 @@ export interface InventoryItem {
   lastUpdated: string;
   isMedicalRequired?: boolean; // Indicates if this item is required for a household member's medical condition
   requiredByMembers?: string[]; // Array of member IDs who require this medical item
+  requiresRefrigeration?: boolean; // Indicates if this item requires refrigeration
 }
 
 export interface HouseholdMember {
@@ -48,6 +49,15 @@ export interface RationingScenario {
   name: string;
   reductionPercentage: number;
   description: string;
+}
+
+export interface EmergencyScenario {
+  type: 'power_outage' | 'flood' | 'pandemic';
+  active: boolean;
+  startDate: string;
+  duration?: number; // in hours for power outage
+  basementFlooded?: boolean; // for flood scenario
+  tips: string[];
 }
 
 export interface SustainabilityMetrics {
@@ -192,6 +202,7 @@ export interface BatterySaverSettings {
 
 export interface AllSettings {
   prepperSettings: PrepperSettings;
+  emergencyScenario: EmergencyScenario | null;
   userPreferences: UserPreferences;
   notificationSettings: NotificationSettings;
   securitySettings: SecuritySettings;

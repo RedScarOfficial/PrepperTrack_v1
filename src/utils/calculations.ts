@@ -1,4 +1,5 @@
 import { InventoryItem, HouseholdMember, RationingScenario, SustainabilityMetrics, WarningFlag, PrepperSettings } from '../types';
+import { EmergencyScenario } from '../types';
 
 export function calculateCaloriesByAge(age: number, activityLevel: string): number {
   // Base metabolic rate calculations based on age and activity level
@@ -224,6 +225,55 @@ export function getPreparednessStatusColor(status: string): string {
     case 'critical': return 'text-red-600';
     default: return 'text-slate-500';
   }
+}
+
+/**
+ * Adjust inventory based on emergency scenario
+ */
+export function adjustInventoryForEmergency(
+  inventory: InventoryItem[],
+  emergency: EmergencyScenario
+): InventoryItem[] {
+  // Create a deep copy of the inventory to avoid modifying the original
+  const adjustedInventory = JSON.parse(JSON.stringify(inventory)) as InventoryItem[];
+  
+  switch (emergency.type) {
+    case 'power_outage':
+      // Mark refrigerated items as expired if power outage duration exceeds 30 hours
+      if ((emergency.duration || 0) >= 30) {
+        return adjustedInventory.map(item => {
+          if (item.requiresRefrigeration) {
+            // Set quantity to 0 to simulate spoilage
+            return { ...item, quantity: 0 };
+          }
+          return item;
+        });
+      }
+      break;
+      
+    case 'flood':
+      // If basement is flooded, items in basement are inaccessible except canned goods
+      if (emergency.basementFlooded) {
+        return adjustedInventory.map(item => {
+          if (
+            item.storageLocation.toLowerCase().includes('basement') && 
+            !(item.category.includes('Canned') || item.name.toLowerCase().includes('can'))
+          ) {
+            // Set quantity to 0 to simulate inaccessibility
+            return { ...item, quantity: 0 };
+          }
+          return item;
+        });
+      }
+      break;
+      
+    case 'pandemic':
+      // No direct inventory adjustments for pandemic
+      // Could implement increased usage rates for medical supplies in a more complex model
+      break;
+  }
+  
+  return adjustedInventory;
 }
 
 export function getPreparednessStatusBgColor(status: string): string {

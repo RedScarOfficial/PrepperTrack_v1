@@ -37,6 +37,8 @@ type PrepperAction =
   | { type: 'UPDATE_NOTIFICATION_SETTINGS'; payload: Partial<NotificationSettings> }
   | { type: 'UPDATE_SECURITY_SETTINGS'; payload: Partial<SecuritySettings> }
   | { type: 'UPDATE_BATTERY_SAVER_SETTINGS'; payload: Partial<BatterySaverSettings> }
+  | { type: 'ACTIVATE_EMERGENCY'; payload: EmergencyScenario }
+  | { type: 'DEACTIVATE_EMERGENCY' }
   | { type: 'IMPORT_ALL_SETTINGS'; payload: AllSettings }
   | { type: 'ADD_REQUIRED_MEDICAL_ITEMS'; payload: { memberId: string; requiredSupplies: string[] } };
 
@@ -229,6 +231,18 @@ function prepperReducer(state: PrepperState, action: PrepperAction): PrepperStat
       return {
         ...state,
         batterySaverSettings: { ...state.batterySaverSettings, ...action.payload },
+      };
+
+    case 'ACTIVATE_EMERGENCY':
+      return {
+        ...state,
+        emergencyScenario: action.payload,
+      };
+
+    case 'DEACTIVATE_EMERGENCY':
+      return {
+        ...state,
+        emergencyScenario: null,
       };
 
     case 'IMPORT_ALL_SETTINGS':

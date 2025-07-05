@@ -19,6 +19,7 @@ export default function AddItemModal({ onClose, onSave }: AddItemModalProps) {
     name: '',
     category: 'Food - Grains' as ItemCategory,
     quantity: '',
+    requiresRefrigeration: false,
     unit: '',
     expirationDate: '',
     storageLocation: '',
@@ -118,6 +119,7 @@ export default function AddItemModal({ onClose, onSave }: AddItemModalProps) {
     const rawItem = {
       id: Date.now().toString(),
       name: formData.name,
+      requiresRefrigeration: formData.requiresRefrigeration,
       category: formData.category,
       quantity: parseFloat(formData.quantity),
       unit: formData.unit,
@@ -296,6 +298,23 @@ export default function AddItemModal({ onClose, onSave }: AddItemModalProps) {
                 onValidationError={(error) => setErrors(prev => ({ ...prev, cost: error }))}
               />
               {errors.cost && <p className="text-red-600 text-xs mt-1">{errors.cost}</p>}
+            </div>
+
+            <div>
+              <label className="flex items-center space-x-2 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={formData.requiresRefrigeration}
+                  onChange={(e) => handleInputChange('requiresRefrigeration', e.target.checked)}
+                  className="rounded border-slate-300 text-green-600 focus:ring-green-500"
+                />
+                <span className="text-sm font-medium text-slate-700 dark:text-slate-300">
+                  Requires Refrigeration
+                </span>
+              </label>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 ml-6">
+                Check this if the item needs to be kept cold
+              </p>
             </div>
 
             <div className="md:col-span-2">

@@ -42,6 +42,11 @@ export default function ItemRow({ item }: ItemRowProps) {
       <td className="px-6 py-4">
         <div>
           <p className="font-medium text-slate-800 dark:text-slate-200">{item.name}</p>
+          {item.requiresRefrigeration && (
+            <span className="inline-block px-2 py-0.5 bg-blue-100 dark:bg-blue-900/50 text-blue-800 dark:text-blue-200 text-xs rounded-full mt-1">
+              Refrigerated
+            </span>
+          )}
           {item.caloriesPerUnit && (
             <p className="text-sm text-slate-500 dark:text-slate-400">{item.caloriesPerUnit.toLocaleString()} cal/unit</p>
           )}

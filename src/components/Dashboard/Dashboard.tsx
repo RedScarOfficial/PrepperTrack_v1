@@ -1,16 +1,23 @@
-import React from 'react';
-import { Users, Apple, Droplets, DollarSign, AlertTriangle, Calendar, Target, Shield } from 'lucide-react';
+import React, { useState } from 'react';
+import { Users, Apple, Droplets, DollarSign, AlertTriangle, Calendar, Target, Shield, Zap, Waves, Virus, X } from 'lucide-react';
 import { usePrepper } from '../../context/PrepperContext';
-import { calculateSustainabilityMetrics, calculateWaterNeedsWithSafetyMargin, calculatePreparednessStatus, getPreparednessStatusColor, getPreparednessStatusBgColor } from '../../utils/calculations';
+import { calculateSustainabilityMetrics, calculateWaterNeedsWithSafetyMargin, calculatePreparednessStatus, getPreparednessStatusColor, getPreparednessStatusBgColor, adjustInventoryForEmergency } from '../../utils/calculations';
 import MetricCard from './MetricCard';
 import WarningsList from './WarningsList';
 import HouseholdSummary from './HouseholdSummary';
+import EmergencyScenarioPanel from './EmergencyScenarioPanel';
 
 export default function Dashboard() {
-  const { state } = usePrepper();
-  const { inventory, household, settings, rationingScenarios } = state;
+  const { state, dispatch } = usePrepper();
+  const { inventory, household, settings, rationingScenarios, emergencyScenario } = state;
+  const [showEmergencyModal, setShowEmergencyModal] = useState(false);
 
-  const metrics = calculateSustainabilityMetrics(inventory, household, rationingScenarios, settings);
+  // Adjust inventory based on emergency scenario
+  const adjustedInventory = emergencyScenario 
+    ? adjustInventoryForEmergency(inventory, emergencyScenario) 
+    : inventory;
+  
+  const metrics = calculateSustainabilityMetrics(adjustedInventory, household, rationingScenarios, settings);
   
   const totalInventoryValue = inventory.reduce((sum, item) => sum + (item.cost || 0) * item.quantity, 0);
   const totalItems = inventory.length;
@@ -40,12 +47,104 @@ export default function Dashboard() {
   const selectedScenario = rationingScenarios.find(s => s.id === state.selectedRationingScenario);
   const rationedDays = metrics.rationedUsageDays[state.selectedRationingScenario] || 0;
 
+  const handleDeactivateEmergency = () => {
+    dispatch({ type: 'DEACTIVATE_EMERGENCY' });
+  };
+
   return (
     <div className="p-6 bg-slate-50 min-h-screen">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-slate-800 mb-2">Preparedness Dashboard</h1>
-        <p className="text-slate-600">Monitor your survival readiness and supply sustainability</p>
+        <div className="flex items-center justify-between mb-2">
+          <h1 className="text-3xl font-bold text-slate-800 dark:text-slate-200">Preparedness Dashboard</h1>
+          <div>
+            {emergencyScenario ? (
+              <button
+                onClick={handleDeactivateEmergency}
+                className="bg-red-600 hover:bg-red-700 dark:bg-red-700 dark:hover:bg-red-600 text-white px-4 py-2 rounded-lg flex items-center space-x-2 transition-colors"
+              >
+                <X className="h-4 w-4" />
+                <span>End Emergency</span>
+              </button>
+            ) : (
+              <button
+                onClick={() => setShowEmergencyModal(true)}
+                className="bg-orange-600 hover:bg-orange-700 dark:bg-orange-700 dark:hover:bg-orange-600 text-white px-4 py-2 rounded-lg flex items-center space-x-2 transition-colors"
+              >
+                <AlertTriangle className="h-4 w-4" />
+                <span>Activate Emergency</span>
+              </button>
+            )}
+          </div>
+        </div>
+        <p className="text-slate-600 dark:text-slate-400">Monitor your survival readiness and supply sustainability</p>
       </div>
+
+      {/* Emergency Scenario Alert */}
+      {emergencyScenario && (
+        <div className={`rounded-xl border-2 p-6 mb-8 ${
+          emergencyScenario.type === 'power_outage' ? 'bg-yellow-50 dark:bg-yellow-900/30 border-yellow-300 dark:border-yellow-600' :
+          emergencyScenario.type === 'flood' ? 'bg-blue-50 dark:bg-blue-900/30 border-blue-300 dark:border-blue-600' :
+          'bg-purple-50 dark:bg-purple-900/30 border-purple-300 dark:border-purple-600'
+        }`}>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-4">
+              <div className="p-3 rounded-lg bg-white/50 dark:bg-black/20">
+                {emergencyScenario.type === 'power_outage' && <Zap className="h-8 w-8 text-yellow-600 dark:text-yellow-400" />}
+                {emergencyScenario.type === 'flood' && <Waves className="h-8 w-8 text-blue-600 dark:text-blue-400" />}
+                {emergencyScenario.type === 'pandemic' && <Virus className="h-8 w-8 text-purple-600 dark:text-purple-400" />}
+              </div>
+              <div>
+                <h2 className="text-xl font-semibold text-slate-800 dark:text-slate-200">
+                  {emergencyScenario.type === 'power_outage' && 'Power Outage Emergency'}
+                  {emergencyScenario.type === 'flood' && 'Flood Emergency'}
+                  {emergencyScenario.type === 'pandemic' && 'Pandemic Emergency'}
+                </h2>
+                <p className="text-sm text-slate-600 dark:text-slate-400">
+                  {emergencyScenario.type === 'power_outage' && `Active since ${new Date(emergencyScenario.startDate).toLocaleString()}`}
+                  {emergencyScenario.type === 'flood' && `Active since ${new Date(emergencyScenario.startDate).toLocaleString()} • ${emergencyScenario.basementFlooded ? 'Basement flooded' : 'Basement secure'}`}
+                  {emergencyScenario.type === 'pandemic' && `Active since ${new Date(emergencyScenario.startDate).toLocaleString()}`}
+                </p>
+              </div>
+            </div>
+            <button
+              onClick={handleDeactivateEmergency}
+              className="p-2 text-slate-600 dark:text-slate-400 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/30 rounded-lg transition-colors"
+              title="End emergency"
+            >
+              <X className="h-5 w-5" />
+            </button>
+          </div>
+          
+          {/* Emergency Scenario Tips */}
+          <div className="mt-4 p-4 bg-white/70 dark:bg-black/20 rounded-lg">
+            <h3 className="font-medium text-slate-800 dark:text-slate-200 mb-2">Emergency Tips</h3>
+            <ul className="space-y-2 text-sm text-slate-700 dark:text-slate-300">
+              {emergencyScenario.tips.map((tip, index) => (
+                <li key={index} className="flex items-start space-x-2">
+                  <span className="inline-block w-4 h-4 bg-green-500 dark:bg-green-600 rounded-full mt-1"></span>
+                  <span>{tip}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+          
+          {/* Emergency Impact */}
+          <div className="mt-4 p-4 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-600 rounded-lg">
+            <h3 className="font-medium text-red-800 dark:text-red-200 mb-2">Emergency Impact</h3>
+            <p className="text-sm text-red-700 dark:text-red-300">
+              {emergencyScenario.type === 'power_outage' && 
+                `Refrigerated items will expire in ${emergencyScenario.duration || 30} hours if power is not restored. Your sustainability metrics have been adjusted accordingly.`
+              }
+              {emergencyScenario.type === 'flood' && 
+                `${emergencyScenario.basementFlooded ? 'Items stored in the basement have been marked as inaccessible except for canned goods.' : 'Your basement is secure, but be prepared to move items if flooding worsens.'} Your sustainability metrics have been adjusted accordingly.`
+              }
+              {emergencyScenario.type === 'pandemic' && 
+                'During a pandemic, your ability to resupply may be limited. Focus on maintaining isolation and proper hygiene.'
+              }
+            </p>
+          </div>
+        </div>
+      )}
 
       {/* Preparedness Goal Status */}
       <div className={`rounded-xl border-2 p-6 mb-8 ${getPreparednessStatusBgColor(preparednessStatus.status)}`}>
@@ -186,6 +285,11 @@ export default function Dashboard() {
         <WarningsList warnings={metrics.warningFlags} />
         <HouseholdSummary members={household} />
       </div>
+      
+      {/* Emergency Scenario Modal */}
+      {showEmergencyModal && (
+        <EmergencyScenarioPanel onClose={() => setShowEmergencyModal(false)} />
+      )}
     </div>
   );
 }

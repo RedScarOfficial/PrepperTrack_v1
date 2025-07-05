@@ -183,6 +183,11 @@ export const defaultSettings: PrepperSettings = {
   preparednessGoalDays: 90,
   minimumCaloriesPerDay: 1200,
   waterSafetyMargin: 1.2,
+  userPreferences: defaultUserPreferences,
+  notificationSettings: defaultNotificationSettings,
+  securitySettings: defaultSecuritySettings,
+  batterySaverSettings: defaultBatterySaverSettings,
+  emergencyScenario: null,
 };
 
 export const defaultRationingScenarios: RationingScenario[] = [
