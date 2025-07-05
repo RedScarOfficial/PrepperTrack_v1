@@ -584,8 +584,6 @@ export default function NotificationSettings() {
                     </label>
                   ))}
                 </div>
-              </>
-              </div>
               
               <div className="mt-4 p-3 bg-orange-100 dark:bg-orange-900/30 rounded-lg border border-orange-200 dark:border-orange-700">
                   <div className="flex items-center space-x-2 mb-2">
@@ -617,7 +615,7 @@ export default function NotificationSettings() {
                     </div>
                   )}
                 </div>
-              </>
+              </div>
             )}
           </div>
         </div>
