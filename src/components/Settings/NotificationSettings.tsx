@@ -562,7 +562,8 @@ export default function NotificationSettings() {
             </div>
 
             {notifications.expirationAlerts && (
-              <div className="ml-4 p-4 bg-orange-50 rounded-lg border border-orange-200">
+              <>
+                <div className="ml-4 p-4 bg-orange-50 rounded-lg border border-orange-200">
                 <h5 className="font-medium text-slate-800 mb-3">Alert Timing</h5>
                 <div className="space-y-2">
                   {[
@@ -616,6 +617,7 @@ export default function NotificationSettings() {
                   )}
                 </div>
               </div>
+              </>
             )}
           </div>
         </div>
