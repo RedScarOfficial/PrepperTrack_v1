@@ -8,7 +8,6 @@ import InventoryList from './components/Inventory/InventoryList';
 import RationPlanning from './components/RationPlanning/RationPlanning';
 import HouseholdManagement from './components/Household/HouseholdManagement';
 import Reports from './components/Reports/Reports';
-import Footer from './components/Layout/Footer';
 import Settings from './components/Settings/Settings';
 import BatterySaverIndicator from './components/Common/BatterySaverIndicator';
 import './styles/battery-saver.css';
@@ -42,7 +41,6 @@ function AppContent() {
       <main className="flex-1">
         {renderContent()}
       </main>
-      <Footer />
       
       {/* Battery Saver Indicator */}
       {!shouldSimplifyUI() && (
